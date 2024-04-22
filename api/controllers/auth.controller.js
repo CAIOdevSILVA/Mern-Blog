@@ -40,7 +40,7 @@ export const signIn = async (req, res, next) => {
       return next(errorHandler(400, 'Invalid Credentials'));
     };
 
-    const validPassword = await bcryptjs.compareSync(password, validUser.password);
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
     if(!validPassword) {
       return next(400, 'Invalid Credentials');
     };
@@ -51,7 +51,7 @@ export const signIn = async (req, res, next) => {
       { expiresIn: '1d' }
     );
 
-    res.status(200).cookie('access_token', token, { httpOnly: true }).json('Login Successful')
+    res.status(200).cookie('access_token', token, { httpOnly: true }).json(validUser);
 
   } catch (error) {
     next(error);
