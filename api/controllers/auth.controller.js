@@ -45,13 +45,15 @@ export const signIn = async (req, res, next) => {
       return next(400, 'Invalid Credentials');
     };
 
+    const { password: pass, ...rest } = validUser._doc;
+
     const token = jwt.sign(
       { id: validUser._id },
       process.env.JWT_SECRET_KEY,
       { expiresIn: '1d' }
     );
 
-    res.status(200).cookie('access_token', token, { httpOnly: true }).json(validUser);
+    res.status(200).cookie('access_token', token, { httpOnly: true }).json(rest);
 
   } catch (error) {
     next(error);
