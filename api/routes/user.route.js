@@ -10,7 +10,7 @@ router.get('/test', (req, res) => {
 
 router.put('/update/:userId', verifyToken, updateUser);
 router.delete('/delete/:userId', verifyToken, deleteUser);
-router.post('signout', signout);
+router.post('/signout', signout);
 
 export default router;
 
