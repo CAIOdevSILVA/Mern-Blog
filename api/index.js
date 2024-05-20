@@ -16,7 +16,7 @@ app.use(cookieParser());
 
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
-app.use('api/post', postRuotes);
+app.use('/api/post', postRuotes);
 
 app.use((err, req, res) => {
   const statusCode = err.statusCode || 500;

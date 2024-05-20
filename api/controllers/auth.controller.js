@@ -48,15 +48,12 @@ export const signIn = async (req, res, next) => {
     const { password: pass, ...rest } = validUser._doc;
 
     const token = jwt.sign(
-      { id: validUser._id,
-        isAdmin: validUser.isAdmin
-      },
+      { id: validUser._id, isAdmin: validUser.isAdmin},
       process.env.JWT_SECRET_KEY,
       { expiresIn: '1d' }
     );
 
     res.status(200).cookie('access_token', token, { httpOnly: true }).json(rest);
-
   } catch (error) {
     next(error);
   }
@@ -67,7 +64,7 @@ export const google = async (req, res, next) => {
   try {
     const user = await User.findOne({ email });
     if(user){
-      const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
+      const token = jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET_KEY);
       const { password, ...rest } = user._doc;
       res.status(200).cookie('access_token', token, { httpOnly: true }).json(rest);
     } else {
