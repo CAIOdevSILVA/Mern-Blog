@@ -6,6 +6,7 @@ import { Table } from 'flowbite-react';
 
 const DashPosts = () => {
   const [userPosts, setUserPosts] = useState([]);
+  const [showMore, setShowMore] = useState(true);
   const { currentUser } = useSelector((state) => state.user);
   
   const fetchPosts = async () => {
@@ -14,6 +15,25 @@ const DashPosts = () => {
       const data = await res.json();
       if(res.ok) {
         setUserPosts(data.posts);
+        if(data.posts.length > 9) {
+          setShowMore(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const handleShowMore = async () => {
+    const startIndex = userPosts.length;
+    try {
+      const res = await fetch(`/api/post/get-posts?userId=${currentUser._id}&startIndex=${startIndex}`);
+      const data = await res.json();
+      if(res.ok) {
+        setUserPosts((prev) => [...prev, ...data.posts]);
+        if(data.posts.length < 9) {
+          setShowMore(false);
+        }
       }
     } catch (error) {
       console.log(error);
@@ -75,6 +95,11 @@ const DashPosts = () => {
                 </Table.Body>
               ))}
             </Table>
+            {showMore && (
+              <button onClick={handleShowMore} className='w-full text-teal-500 self-center text-sm py-7 hover:underline '>
+                Show more
+              </button>
+            )}
           </>
         ) 
           : 
