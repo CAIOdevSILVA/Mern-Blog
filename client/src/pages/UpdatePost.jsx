@@ -1,5 +1,6 @@
 import { FileInput, Select, TextInput, Button, Alert } from 'flowbite-react';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { app } from '../firebase';
 import {
   getDownloadURL,
@@ -21,6 +22,8 @@ const UpdatePost = () => {
   const [publishError, setPublishError] = useState(null);
   const { postId } = useParams();
   const navigate = useNavigate();
+
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleUploadImage = async () => {
     try {
@@ -61,8 +64,8 @@ const UpdatePost = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/post/create', {
-        method: 'POST',
+      const res = await fetch(`/api/post/update-post/${postId}/${currentUser._id}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
