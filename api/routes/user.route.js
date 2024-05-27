@@ -12,7 +12,7 @@ router.put('/update/:userId', verifyToken, updateUser);
 router.delete('/delete/:userId', verifyToken, deleteUser);
 router.post('/signout', signout);
 router.get('/get-users', verifyToken, getUsers);
-router.delete('/delete-user', verifyToken, deleteUserWithDashboard);
+router.delete('/delete-user/:userId', verifyToken, deleteUserWithDashboard);
 
 export default router;
 

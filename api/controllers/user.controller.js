@@ -117,8 +117,8 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
-export const deleteUserWithDashboard = async (req, res) => {
-  if(!req.user.isAdmin && req.user.id !== req.params.userId) {
+export const deleteUserWithDashboard = async (req, res, next) => {
+  if(!req.user.isAdmin) {
     return next(errorHandler(403, 'You are not allowed to delete this user'));
   }
   try {
