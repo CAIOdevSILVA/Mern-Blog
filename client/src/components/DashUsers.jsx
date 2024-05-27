@@ -24,7 +24,7 @@ const DashUsers = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const handleShowMore = async () => {
     const startIndex = users.length;
@@ -40,7 +40,11 @@ const DashUsers = () => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const handleDeleteUser = async () => {
+    
+  };
 
   useEffect(() => {
     if(currentUser.isAdmin) fetchUsers();
@@ -126,7 +130,7 @@ const DashUsers = () => {
                     Are you sure you want delete your account ?
                   </h3>
                   <div className='flex justify-center gap-4'>
-                    <Button color={'failure'} >
+                    <Button color={'failure'} onClick={handleDeleteUser}>
                        Yes, I'm sure
                     </Button>
                     <Button color={'gray'} onClick={() => setShowModal(false)}>
