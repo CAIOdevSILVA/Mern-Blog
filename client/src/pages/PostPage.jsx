@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useParams }  from 'react-router-dom';
 
 import { Spinner, Button } from 'flowbite-react';
+import { CallToAction } from '../components/CallToAction';
 
 const PostPage = () => {
   const [loading, setLoading] = useState(true);
@@ -57,6 +58,10 @@ const PostPage = () => {
       </div>
 
       <div dangerouslySetInnerHTML={{ __html: post?.content }} className='p-3 mx-auto max-w-2xl w-full post-content'></div>
+
+      <div className='max-w-4xl w-full mx-auto'>
+        <CallToAction />
+      </div>
     </main>
   )
 }
