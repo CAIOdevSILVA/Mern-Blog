@@ -86,7 +86,16 @@ export const CommentSection = ({ postId }) => {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
+
+  const handleEdit = async (comment, editedContent) => {
+    setGetComment(
+      getComment.map((c) => 
+        c._id === comment._id ? { ...c, content: editedContent } : c
+      )
+    );
+  };
+
 
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
@@ -158,7 +167,7 @@ export const CommentSection = ({ postId }) => {
             </div>
           </div>
           {getComment.map((comment, index) => (
-            <Comment key={index} comment={comment} onLike={handleLike}/>
+            <Comment key={index} comment={comment} onLike={handleLike} onEdit={handleEdit}/>
           ))}
         </>
       )}
