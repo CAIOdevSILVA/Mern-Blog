@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, Textarea, Alert, Spinner } from 'flowbite-react';
 import {Comment } from './Comment.jsx';
 
@@ -9,6 +9,8 @@ export const CommentSection = ({ postId }) => {
   const [commentError, setCommentError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [getComment, setGetComment] = useState([]);
+
+  const navigate = useNavigate();
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -59,6 +61,32 @@ export const CommentSection = ({ postId }) => {
     }
     getComments();
   }, [postId]);
+
+  const handleLike = async(commentId) => {
+    try {
+      if(!currentUser) {
+        navigate('/sing-in');
+        return;
+      }
+      const res = await fetch(`/api/comment/like-comment/${commentId}`, { method: 'PUT' });
+      if (res.ok) {
+        const data = await res.json();
+        setGetComment(
+          getComment.map((comment) =>
+            comment._id === commentId
+              ? {
+                  ...comment,
+                  likes: data.likes,
+                  numberOfLikes: data.likes.length,
+                }
+              : comment
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div className='max-w-2xl mx-auto w-full p-3'>
@@ -129,8 +157,8 @@ export const CommentSection = ({ postId }) => {
               <p>{getComment.length}</p>
             </div>
           </div>
-          {getComment.map((comment) => (
-            <Comment key={comment._id} comment={comment} />
+          {getComment.map((comment, index) => (
+            <Comment key={index} comment={comment} onLike={handleLike}/>
           ))}
         </>
       )}
