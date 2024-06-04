@@ -34,7 +34,7 @@ export const Comment = ({ comment, onLike, onEdit }) => {
     setEditedContent(comment.content);
   };
 
-  const handleSave = async() => {
+  const handleEditSave = async() => {
     try {
       setLoading(true);
       const res = await fetch(`/api/comment/edit-comment/${comment._id}`, {
@@ -87,7 +87,7 @@ export const Comment = ({ comment, onLike, onEdit }) => {
                 type='button'
                 size='sm'
                 gradientDuoTone={'purpleToBlue'}
-                onClick={handleSave}
+                onClick={handleEditSave}
                 disabled={loading}
               >
                 {loading && ( <Spinner size={'sm'} className='mr-2'/> )} Save
